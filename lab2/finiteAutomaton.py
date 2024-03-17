@@ -46,19 +46,16 @@ class FiniteAutomaton:
     def convert_to_regular_grammar(self):
         regular_grammar = Grammar()
 
-        # Set the states and alphabet
         regular_grammar.VN = self.states
         regular_grammar.VT = self.alphabet
 
-        # Reset the productions
         regular_grammar.P = {}
 
         for (source, target), destination in self.transitions.items():
-            if destination[0] == 'final':
-                regular_grammar.P.setdefault(source, []).append(target)
-            else:
-                for item in destination:
-                    regular_grammar.P.setdefault(source, []).append(target + item)
+            for item in destination:
+                regular_grammar.P.setdefault(source, []).append(target + item)
+
+        regular_grammar.F = self.final_states
 
         return regular_grammar
 
