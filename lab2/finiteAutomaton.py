@@ -1,18 +1,21 @@
-from collections import deque
-
 from lab2.grammar import Grammar
 
 
 class FiniteAutomaton:
-    def __init__(self, grammar):
-
-        self.states = {}
-        self.alphabet = {}
-        self.transitions = {}
-        self.initial_state = None
-        self.final_states = {}
-
-        self.convert_from_grammar(grammar)
+    def __init__(self, states=None, alphabet=None, transitions=None, initial_state=None, final_states=None, grammar=None):
+        if grammar:
+            self.states = {}
+            self.alphabet = {}
+            self.transitions = {}
+            self.initial_state = None
+            self.final_states = {}
+            self.convert_from_grammar(grammar)
+        else:
+            self.states = states
+            self.alphabet = alphabet
+            self.transitions = transitions
+            self.initial_state = initial_state
+            self.final_states = final_states
 
     def convert_from_grammar(self, grammar):
 
@@ -71,27 +74,28 @@ class FiniteAutomaton:
         return "DFA" if is_dfa else "NFA"
 
     def convert_ndfa_to_dfa(self):
-        dfa = FiniteAutomaton(Grammar())
-        visited = set()
-        queue = deque([frozenset([self.initial_state])])
+        init_state = self.initial_state
+        dfa_table = {(frozenset(init_state), alpha): [] for alpha in self.alphabet}
+        states = set(init_state)
+        x = 1
+        while x != 0:
+            x = 0
+            keys_to_process = [key for key, value in dfa_table.items() if value == []]
 
-        while queue:
-            current_states = queue.popleft()
-            if current_states in visited:
-                continue
-            visited.add(current_states)
+            for dfa_states in keys_to_process:
+                symbol = dfa_states[1]
+                for state in dfa_states[0]:
+                    dfa_table[dfa_states] = dfa_table.get(dfa_states, []) + self.transitions.get((state, symbol), [])
 
-            for symbol in self.alphabet:
-                next_states = set()
-                for state in current_states:
-                    if (state, symbol) in self.transitions:
-                        next_states.update(set(self.transitions[(state, symbol)]))
-                if next_states:
-                    dfa.transitions[(current_states, symbol)] = next_states
-                    queue.append(frozenset(next_states))
-                    if any(state in self.final_states for state in next_states):
-                        dfa.final_states.add(frozenset(next_states))
-        return dfa
+                for alpha in self.alphabet:
+                    if dfa_table[dfa_states]:
+                        key = (frozenset(dfa_table[dfa_states]), alpha)
+                    if key not in dfa_table:
+                        states.add(frozenset(dfa_table[dfa_states]))
+                        x = 1
+                        dfa_table[key] = []
+
+        return FiniteAutomaton(initial_state=init_state, alphabet=self.alphabet, states=states, transitions=dfa_table)
 
     def __str__(self):
         dfa_str = "States: {}\n".format(self.states)

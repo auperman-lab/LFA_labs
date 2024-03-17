@@ -25,13 +25,23 @@ class Grammar:
     # δ(q3, a) = q3,
     # δ(q2, a) = q3.
 
+    # def __init__(self):
+    #     self.VN = {'S', 'F', 'D'}
+    #     self.VT = {'a', 'b', 'c'}
+    #     self.P = {
+    #         'S': ['aF', 'bS', 'aS'],
+    #         'F': ['bF', 'cD', 'a'],
+    #         'D': ['cS', 'a'],
+    #     }
+
     def __init__(self):
-        self.VN = {'S', 'F', 'D'}
+        self.VN = {'S', 'A', 'B', 'C'}
         self.VT = {'a', 'b', 'c'}
         self.P = {
-            'S': ['aF', 'bS', 'aS'],
-            'F': ['bF', 'cD', 'a'],
-            'D': ['cS', 'a'],
+            'S': ['bS', 'aA'],
+            'A': ['cA', 'aB'],
+            'B': ['aC'],
+            'C': ['aC', 'aA'],
         }
 
     def print_grammar(self):

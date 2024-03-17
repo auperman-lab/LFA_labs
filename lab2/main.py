@@ -41,15 +41,7 @@ class Main:
 
         grammar = Grammar()
 
-        print("Generated strings:")
-        valid_strings = Main.generate_valid_strings(grammar, 5)
-
-        for result, transitions in valid_strings:
-            for transition in transitions:
-                print(f"-> {transition[1]}", end=' ')
-            print(f"-> {result} \n")
-
-        finite_automaton = FiniteAutomaton(grammar)
+        finite_automaton = FiniteAutomaton(grammar=grammar)
 
         chomsky_type = grammar.chomsky_classification()
         print("\n\nChomsky Classification:", chomsky_type)
@@ -64,9 +56,6 @@ class Main:
         dfa = finite_automaton.convert_ndfa_to_dfa()
         print("NFA after conversion :")
         print(dfa)
-
-        dfaType = finite_automaton.check_dfa_or_nfa()
-        print("\n\nDFA or NFA : ", dfaType)
 
 
 if os.path.basename(__file__) == "main.py":
