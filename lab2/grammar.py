@@ -37,6 +37,7 @@ class Grammar:
     def __init__(self):
         self.VN = {'S', 'A', 'B', 'C'}
         self.VT = {'a', 'b', 'c'}
+        self.F = {'B'}
         self.P = {
             'S': ['bS', 'aA'],
             'A': ['cA', 'aB'],

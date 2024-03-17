@@ -56,6 +56,8 @@ class Main:
         dfa = finite_automaton.convert_ndfa_to_dfa()
         print("NFA after conversion :")
         print(dfa)
+        # finite_automaton.draw()
+        dfa.draw()
 
 
 if os.path.basename(__file__) == "main.py":
