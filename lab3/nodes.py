@@ -16,6 +16,7 @@ class NameNode:
 
     def __repr__(self):
         final_status = "final" if self.final else "not final"
+        # final_status = False
         return f"NameNode(value='{self.value}', status='{final_status}')"
 
 
@@ -28,5 +29,5 @@ class ConnectNode:
     weight: NumberNode
 
     def __repr__(self):
-        return f"ConnectNode({self.name_a} {'<-' if self.left_dir else '-'} {self.weight} {'->' if self.right_dir else '-'} {self.name_b})"
-
+        return f"ConnectNode({self.name_a} {'<-' if self.left_dir else '-'} {self.weight} " \
+               f"{'->' if self.right_dir else '-'} {self.name_b})"
