@@ -55,7 +55,7 @@ class Connection:
                 dot.edge(self.name_b.value, self.name_a.value, label=str(self.weight.value))
             else:
                 dot.edge(self.name_b.value, self.name_a.value)
-        if not (self.right_dir and self.left_dir):
+        if not self.right_dir and not self.left_dir:
             if self.weight.value != 0:
                 dot.edge(self.name_a.value, self.name_b.value, label=str(self.weight.value), dir='none')
             else:
