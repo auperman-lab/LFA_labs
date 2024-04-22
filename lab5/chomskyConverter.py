@@ -27,6 +27,11 @@ class ChomskyConverter:
         print("\nafter eliminating any renaming")
         self.renamingElimination()
         grammar = Grammar(self.VN, self.VT, self.P)
+        print(grammar)
+
+        print("\n after chomsky transformation")
+        self.chomskyStep()
+        grammar = Grammar(self.VN, self.VT, self.P)
 
         return grammar
 
@@ -133,13 +138,22 @@ class ChomskyConverter:
             counter -= 1
 
     def chomskyStep(self):
-        for i, symbol in self.VT:
+        for i, symbol in enumerate(self.VT):
             self.VN.add(f'X{i}')
             self.P[f'X{i}'] = symbol
 
         for symbol in list(self.P):
             for production in list(self.P[symbol]):
-                return
+                if len(production) == 2:
+                    new_production = ''
+                    for char in production:
+                        if char in self.VT:
+                            newX = f'X{list(self.VT).index(char)}'
+                            new_production += newX
+                        else:
+                            new_production += char
+                    self.P[symbol].remove(production)
+                    self.P[symbol].add(new_production)
 
     @staticmethod
     def remove_key(dictionary, key_to_remove):
