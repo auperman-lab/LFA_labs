@@ -15,3 +15,7 @@ This repository contains the laboratory work assignments for the Formal Language
 ### Lab 3: Lexer & Scanner
 - [Lab Work](lab3/main.py)
 - [Lab Report](lab3/report.md)
+
+### Lab 5: Chomsky Normal Form
+- [Lab Work](lab5/main.py)
+
